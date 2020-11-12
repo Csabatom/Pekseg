@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.BTN_PeksegUjTermek = new System.Windows.Forms.Button();
             this.LB_PeksegAdatokOldal = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.LB_PeksegTermekei = new System.Windows.Forms.ListBox();
             this.BTN_PeksegHozzaadas = new System.Windows.Forms.Button();
             this.TXTBOX_PeksegNev = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BTN_UjPekaru = new System.Windows.Forms.Button();
             this.BTN_PekaruTorles = new System.Windows.Forms.Button();
             this.LB_Pekaruk = new System.Windows.Forms.ListBox();
             this.CB_Laktozmentes = new System.Windows.Forms.CheckBox();
@@ -52,7 +54,7 @@
             this.LBL_AlapitasDatum = new System.Windows.Forms.Label();
             this.LBL_PeksegNev = new System.Windows.Forms.Label();
             this.LB_PeksegekStatisztikakOldal = new System.Windows.Forms.ListBox();
-            this.BTN_UjPekaru = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -86,7 +88,7 @@
             // 
             this.groupBox2.Controls.Add(this.BTN_PeksegUjTermek);
             this.groupBox2.Controls.Add(this.LB_PeksegAdatokOldal);
-            this.groupBox2.Controls.Add(this.listBox2);
+            this.groupBox2.Controls.Add(this.LB_PeksegTermekei);
             this.groupBox2.Controls.Add(this.BTN_PeksegHozzaadas);
             this.groupBox2.Controls.Add(this.TXTBOX_PeksegNev);
             this.groupBox2.Location = new System.Drawing.Point(9, 174);
@@ -98,6 +100,7 @@
             // 
             // BTN_PeksegUjTermek
             // 
+            this.BTN_PeksegUjTermek.Enabled = false;
             this.BTN_PeksegUjTermek.Location = new System.Drawing.Point(624, 186);
             this.BTN_PeksegUjTermek.Name = "BTN_PeksegUjTermek";
             this.BTN_PeksegUjTermek.Size = new System.Drawing.Size(75, 23);
@@ -114,15 +117,16 @@
             this.LB_PeksegAdatokOldal.Name = "LB_PeksegAdatokOldal";
             this.LB_PeksegAdatokOldal.Size = new System.Drawing.Size(215, 212);
             this.LB_PeksegAdatokOldal.TabIndex = 5;
+            this.LB_PeksegAdatokOldal.SelectedIndexChanged += new System.EventHandler(this.LB_PeksegAdatokOldal_SelectedIndexChanged);
             // 
-            // listBox2
+            // LB_PeksegTermekei
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 16;
-            this.listBox2.Location = new System.Drawing.Point(554, 21);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(215, 132);
-            this.listBox2.TabIndex = 4;
+            this.LB_PeksegTermekei.FormattingEnabled = true;
+            this.LB_PeksegTermekei.ItemHeight = 16;
+            this.LB_PeksegTermekei.Location = new System.Drawing.Point(554, 21);
+            this.LB_PeksegTermekei.Name = "LB_PeksegTermekei";
+            this.LB_PeksegTermekei.Size = new System.Drawing.Size(215, 132);
+            this.LB_PeksegTermekei.TabIndex = 4;
             // 
             // BTN_PeksegHozzaadas
             // 
@@ -132,6 +136,7 @@
             this.BTN_PeksegHozzaadas.TabIndex = 3;
             this.BTN_PeksegHozzaadas.Text = "Hozzáadás";
             this.BTN_PeksegHozzaadas.UseVisualStyleBackColor = true;
+            this.BTN_PeksegHozzaadas.Click += new System.EventHandler(this.BTN_PeksegHozzaadas_Click);
             // 
             // TXTBOX_PeksegNev
             // 
@@ -141,6 +146,8 @@
             this.TXTBOX_PeksegNev.Size = new System.Drawing.Size(144, 22);
             this.TXTBOX_PeksegNev.TabIndex = 2;
             this.TXTBOX_PeksegNev.Text = "Pékség neve";
+            this.TXTBOX_PeksegNev.Enter += new System.EventHandler(this.TXTBOX_PeksegNev_FocusEnter);
+            this.TXTBOX_PeksegNev.Leave += new System.EventHandler(this.TXTBOX_PeksegNev_FocusLeave);
             // 
             // groupBox1
             // 
@@ -157,6 +164,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Pékáruk";
+            // 
+            // BTN_UjPekaru
+            // 
+            this.BTN_UjPekaru.Location = new System.Drawing.Point(185, 13);
+            this.BTN_UjPekaru.Name = "BTN_UjPekaru";
+            this.BTN_UjPekaru.Size = new System.Drawing.Size(99, 64);
+            this.BTN_UjPekaru.TabIndex = 6;
+            this.BTN_UjPekaru.Text = "Új pékáru";
+            this.BTN_UjPekaru.UseVisualStyleBackColor = true;
+            this.BTN_UjPekaru.Click += new System.EventHandler(this.BTN_UjPekaru_Click);
             // 
             // BTN_PekaruTorles
             // 
@@ -311,15 +328,10 @@
             this.LB_PeksegekStatisztikakOldal.Size = new System.Drawing.Size(248, 244);
             this.LB_PeksegekStatisztikakOldal.TabIndex = 0;
             // 
-            // BTN_UjPekaru
+            // timer1
             // 
-            this.BTN_UjPekaru.Location = new System.Drawing.Point(185, 13);
-            this.BTN_UjPekaru.Name = "BTN_UjPekaru";
-            this.BTN_UjPekaru.Size = new System.Drawing.Size(99, 64);
-            this.BTN_UjPekaru.TabIndex = 6;
-            this.BTN_UjPekaru.Text = "Új pékáru";
-            this.BTN_UjPekaru.UseVisualStyleBackColor = true;
-            this.BTN_UjPekaru.Click += new System.EventHandler(this.BTN_UjPekaru_Click);
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -349,7 +361,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button BTN_PeksegUjTermek;
         private System.Windows.Forms.ListBox LB_PeksegAdatokOldal;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox LB_PeksegTermekei;
         private System.Windows.Forms.Button BTN_PeksegHozzaadas;
         private System.Windows.Forms.TextBox TXTBOX_PeksegNev;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -368,6 +380,7 @@
         private System.Windows.Forms.ListBox LB_PeksegekStatisztikakOldal;
         private System.Windows.Forms.Button BTN_PekaruTorles;
         private System.Windows.Forms.Button BTN_UjPekaru;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

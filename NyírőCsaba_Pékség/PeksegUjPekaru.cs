@@ -14,10 +14,12 @@ namespace NyírőCsaba_Pékség
     {
         public Pekaru pekaru;
         public ComboBox COMBO_Pekaruk = new ComboBox();
+        int peksegIndex;
 
-        public PeksegUjPekaru()
+        public PeksegUjPekaru(int peksegIndex)
         {
             InitializeComponent();
+            MessageBox.Show(peksegIndex.ToString());
         }
 
         private void BTN_PekaruHozzaadas_Click(object sender, EventArgs e)
@@ -25,6 +27,7 @@ namespace NyírőCsaba_Pékség
             pekaru = (Pekaru)COMBO_Pekaruk.SelectedItem;
             if(pekaru != null)
             {
+                Form1.peksegek[peksegIndex].Pekaruk.Add(pekaru);
                 this.Close();
             } else
             {

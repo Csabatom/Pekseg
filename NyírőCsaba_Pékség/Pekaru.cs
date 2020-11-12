@@ -10,13 +10,13 @@ namespace NyírőCsaba_Pékség
     {
         public String Nev;
         public double Ar;
-        public bool laktozmentes;
+        public bool Laktozmentes;
 
-        public Pekaru(string Nev, double Ar, bool laktozmentes)
+        public Pekaru(string Nev, double Ar, bool Laktozmentes)
         {
             this.Nev = Nev;
             this.Ar = Ar;
-            this.laktozmentes = laktozmentes;
+            this.Laktozmentes = Laktozmentes;
         }
 
         public override string ToString()
