@@ -32,10 +32,10 @@ namespace NyírőCsaba_Pékség
                     int index = LB_Pekaruk.SelectedIndex;
                     foreach(var pekseg in peksegek)
                     {
-                        if(pekseg.Pekaruk.Contains(LB_Pekaruk.Items[index]))
+                        if(pekseg.Termekek.Contains(LB_Pekaruk.Items[index]))
                         {
-                            pekseg.Pekaruk.Insert(pekseg.Pekaruk.IndexOf((Pekaru)LB_Pekaruk.Items[index]), pekaru);
-                            pekseg.Pekaruk.Remove((Pekaru)LB_Pekaruk.Items[index]);
+                            pekseg.Termekek.Insert(pekseg.Termekek.IndexOf((Pekaru)LB_Pekaruk.Items[index]), pekaru);
+                            pekseg.Termekek.Remove((Pekaru)LB_Pekaruk.Items[index]);
                         }
                     }
                     LB_Pekaruk.Items.RemoveAt(index);
@@ -118,11 +118,12 @@ namespace NyírőCsaba_Pékség
             {
                 foreach(var pekseg in peksegek)
                 {
-                    if(pekseg.Pekaruk.Contains(LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]))
+                    if(pekseg.Termekek.Contains(LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]))
                     {
-                        pekseg.Pekaruk.Remove((Pekaru)LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]);
+                        pekseg.Termekek.Remove((Pekaru)LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]);
                     }
                 }
+                LB_PeksegTermekei.Items.Remove((Pekaru)LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]);
                 LB_Pekaruk.Items.RemoveAt(LB_Pekaruk.SelectedIndex);
             } catch (Exception err)
             {
@@ -143,21 +144,14 @@ namespace NyírőCsaba_Pékség
 
         private void BTN_PeksegUjTermek_Click(object sender, EventArgs e)
         {
-            PeksegUjPekaru ujPekaruForm = new PeksegUjPekaru(LB_PeksegAdatokOldal.SelectedIndex);
-            foreach(var pekaru in LB_Pekaruk.Items)
+            if(LB_Pekaruk.SelectedIndex != -1 && LB_PeksegAdatokOldal.SelectedIndex != -1 && !peksegek[LB_PeksegAdatokOldal.SelectedIndex].Termekek.Contains((Pekaru)LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]))
             {
-                if(!peksegek[LB_PeksegAdatokOldal.SelectedIndex].Pekaruk.Contains(pekaru))
-                {
-                    ujPekaruForm.COMBO_Pekaruk.Items.Add((Pekaru)pekaru);
-                }
+                peksegek[LB_PeksegAdatokOldal.SelectedIndex].Termekek.Add((Pekaru)LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]);
             }
-            if(ujPekaruForm.COMBO_Pekaruk.Items.Count > 0)
+            LB_PeksegTermekei.Items.Clear();
+            foreach (var peksegPekaru in peksegek[LB_PeksegAdatokOldal.SelectedIndex].Termekek)
             {
-                ujPekaruForm.addComboBox();
-                ujPekaruForm.Show();
-            } else
-            {
-                MessageBox.Show("A pékség minden pékárut tartalmaz!");
+                LB_PeksegTermekei.Items.Add(peksegPekaru);
             }
         }
 
@@ -214,9 +208,9 @@ namespace NyírőCsaba_Pékség
                 BTN_PeksegUjTermek.Enabled = true;
             }
             LB_PeksegTermekei.Items.Clear();
-            if(LB_PeksegAdatokOldal.SelectedIndex != -1 && peksegek[LB_PeksegAdatokOldal.SelectedIndex].Pekaruk != null)
+            if(LB_PeksegAdatokOldal.SelectedIndex != -1 && peksegek[LB_PeksegAdatokOldal.SelectedIndex].Termekek != null)
             {
-                foreach (var peksegPekaru in peksegek[LB_PeksegAdatokOldal.SelectedIndex].Pekaruk)
+                foreach (var peksegPekaru in peksegek[LB_PeksegAdatokOldal.SelectedIndex].Termekek)
                 {
                     LB_PeksegTermekei.Items.Add(peksegPekaru);
                 }
@@ -225,23 +219,49 @@ namespace NyírőCsaba_Pékség
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                LB_PeksegTermekei.Items.Clear();
-                if (peksegek[LB_PeksegAdatokOldal.SelectedIndex].Pekaruk.Count > LB_PeksegTermekei.Items.Count)
-                {
-                    foreach (var peksegPekaru in peksegek[LB_PeksegAdatokOldal.SelectedIndex].Pekaruk)
-                    {
-                        LB_PeksegTermekei.Items.Add(peksegPekaru);
-                    }
-                }
-            } catch (Exception err) { }
-
             if(TXTBOX_PekaruNev.ForeColor == Color.Silver && TXTBOX_PekaruAr.ForeColor == Color.Silver && CB_Laktozmentes.Checked == false)
             {
-                LB_Pekaruk.SelectedIndex = -1;
                 BTN_PekaruHozzaadas.Text = "Hozzáadás";
             }
+
+            if(LB_Pekaruk.SelectedIndex != -1 && LB_PeksegAdatokOldal.SelectedIndex != -1 && !peksegek[LB_PeksegAdatokOldal.SelectedIndex].Termekek.Contains((Pekaru)LB_Pekaruk.Items[LB_Pekaruk.SelectedIndex]))
+            {
+                BTN_PeksegUjTermek.Enabled = true;
+            } else
+            {
+                BTN_PeksegUjTermek.Enabled = false;
+            }
+        }
+
+        private void TC_Tabok_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(TC_Tabok.SelectedIndex == 1)
+            {
+                LB_PeksegekStatisztikakOldal.Items.Clear();
+                foreach(var pekseg in peksegek)
+                {
+                    LB_PeksegekStatisztikakOldal.Items.Add(pekseg);
+                }
+            }
+        }
+
+        private void LB_PeksegekStatisztikakOldal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LBL_PeksegNev.Text = "Pékség név: ";
+            LBL_AlapitasDatum.Text = "Alapítva: ";
+            LBL_PekaruDarab.Text = "Pékáruk: ";
+            LBL_AtlagAr.Text = "Átlagos ár: ";
+            LBL_LegolcsobbTermek.Text = "Legolcsóbb termék: ";
+            LBL_LegdragabbTermek.Text = "Legdrágább termék: ";
+            LBL_LaktozmentesTermekek.Text = "Laktózmentes termékek: ";
+
+            LBL_PeksegNev.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].Nev;
+            LBL_AlapitasDatum.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].Alapitva.ToString().Remove(22 - 8);
+            LBL_PekaruDarab.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].Termekek.Count + " db";
+            LBL_AtlagAr.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].AtlagAr() + " Ft";
+            LBL_LegolcsobbTermek.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].Legolcsobb();
+            LBL_LegdragabbTermek.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].Legdragabb();
+            LBL_LaktozmentesTermekek.Text += peksegek[LB_PeksegekStatisztikakOldal.SelectedIndex].Laktozmentesek();
         }
     }
 }

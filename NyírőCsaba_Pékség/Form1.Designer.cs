@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.TC_Tabok = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.BTN_PeksegUjTermek = new System.Windows.Forms.Button();
@@ -55,22 +55,23 @@
             this.LBL_PeksegNev = new System.Windows.Forms.Label();
             this.LB_PeksegekStatisztikakOldal = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.tabControl1.SuspendLayout();
+            this.TC_Tabok.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // TC_Tabok
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(0, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(799, 445);
-            this.tabControl1.TabIndex = 0;
+            this.TC_Tabok.Controls.Add(this.tabPage1);
+            this.TC_Tabok.Controls.Add(this.tabPage2);
+            this.TC_Tabok.Location = new System.Drawing.Point(0, 3);
+            this.TC_Tabok.Name = "TC_Tabok";
+            this.TC_Tabok.SelectedIndex = 0;
+            this.TC_Tabok.Size = new System.Drawing.Size(799, 445);
+            this.TC_Tabok.TabIndex = 0;
+            this.TC_Tabok.SelectedIndexChanged += new System.EventHandler(this.TC_Tabok_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -315,9 +316,9 @@
             this.LBL_PeksegNev.AutoSize = true;
             this.LBL_PeksegNev.Location = new System.Drawing.Point(263, 7);
             this.LBL_PeksegNev.Name = "LBL_PeksegNev";
-            this.LBL_PeksegNev.Size = new System.Drawing.Size(90, 17);
+            this.LBL_PeksegNev.Size = new System.Drawing.Size(98, 17);
             this.LBL_PeksegNev.TabIndex = 1;
-            this.LBL_PeksegNev.Text = "Pékség neve";
+            this.LBL_PeksegNev.Text = "Pékség neve: ";
             // 
             // LB_PeksegekStatisztikakOldal
             // 
@@ -327,6 +328,7 @@
             this.LB_PeksegekStatisztikakOldal.Name = "LB_PeksegekStatisztikakOldal";
             this.LB_PeksegekStatisztikakOldal.Size = new System.Drawing.Size(248, 244);
             this.LB_PeksegekStatisztikakOldal.TabIndex = 0;
+            this.LB_PeksegekStatisztikakOldal.SelectedIndexChanged += new System.EventHandler(this.LB_PeksegekStatisztikakOldal_SelectedIndexChanged);
             // 
             // timer1
             // 
@@ -338,10 +340,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.TC_Tabok);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.tabControl1.ResumeLayout(false);
+            this.TC_Tabok.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -355,7 +357,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl TC_Tabok;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox2;
